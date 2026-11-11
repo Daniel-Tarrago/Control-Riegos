@@ -1,0 +1,22 @@
+CONTROL DE RIEGOS — GUÍA RÁPIDA
+
+PUBLICAR GRATIS EN GITHUB PAGES
+1. Crea un repositorio público llamado control-riegos en GitHub.
+2. Descomprime este ZIP y sube todos los archivos que contiene (no la carpeta completa) con Add file > Upload files.
+3. En Settings > Pages selecciona Deploy from a branch, rama main y carpeta /(root). Guarda.
+4. La web aparecerá en https://TU-USUARIO.github.io/control-riegos/
+
+IPHONE SIN APP STORE
+Abre la dirección publicada en Safari > Compartir > Añadir a pantalla de inicio. Confirma y tendrás el icono Riegos.
+
+ANDROID
+Abre la dirección en Chrome > menú ⋮ > Instalar aplicación / Añadir a pantalla de inicio.
+
+USO
+Añade campos y después registra riegos. Cada nuevo riego queda pendiente. Puedes marcarlo pagado, deshacer el pago, editarlo o eliminarlo. El precio habitual del campo es opcional y solo sirve como importe inicial sugerido: cada riego puede tener otro importe. Puedes buscar y filtrar riegos.
+
+COPIAS
+En Copias pulsa Guardar copia y conserva el JSON en Archivos/iCloud Drive o en otro lugar seguro. Para recuperar, selecciona el JSON; la app pedirá confirmación y reemplazará los datos actuales. Haz una copia semanal.
+
+IMPORTANTE
+Los datos se guardan localmente en el navegador del móvil. No hay usuario, servidor de datos ni sincronización automática. Si borras los datos del navegador o cambias de dispositivo puedes perderlos; conserva las copias. El repositorio público contiene el código de la app, no los datos guardados en el móvil.
