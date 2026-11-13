@@ -1,1 +1,92 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#176b4d"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-192.png"><link rel="stylesheet" href="style.css"><title>Control de Riegos</title></head><body><header><b>💧 Control de Riegos</b><small>Campos, riegos y pagos</small></header><main><section class="summary"><article><small>Pendiente</small><strong id="pendingTotal">0 €</strong><small id="pendingCount">0 riegos</small></article><article><small>Cobrado</small><strong id="paidTotal">0 €</strong><small id="paidCount">0 riegos</small></article><article><small>Campos</small><strong id="fieldCount">0</strong></article></section><nav><button class="tab active" data-tab="riegos">Riegos</button><button class="tab" data-tab="campos">Campos</button><button class="tab" data-tab="copias">Copias</button></nav><section id="panel-riegos"><div class="heading"><div><h2>Riegos</h2><small>Consulta y controla los pagos.</small></div><button id="newIrrigation" class="primary">＋ Nuevo riego</button></div><div class="filters"><input id="search" placeholder="Buscar campo o agricultor"><select id="statusFilter"><option value="all">Todos</option><option value="pending">Pendientes</option><option value="paid">Pagados</option></select></div><div id="irrigationList"></div><p id="emptyIrrigations" class="empty">Todavía no hay riegos.</p></section><section id="panel-campos" class="hidden"><div class="heading"><div><h2>Campos</h2><small>Registra los campos una sola vez.</small></div><button id="newField" class="primary">＋ Añadir campo</button></div><div id="fieldList"></div><p id="emptyFields" class="empty">Todavía no hay campos.</p></section><section id="panel-copias" class="hidden"><h2>Copias de seguridad</h2><article class="backup"><h3>Guardar mis datos</h3><p>Descarga una copia con campos, riegos, importes y pagos. En iPhone podrás guardarla en Archivos o iCloud Drive.</p><button id="exportData" class="primary">Guardar copia</button></article><article class="backup"><h3>Recuperar mis datos</h3><p>Selecciona un archivo JSON anterior. Se sustituirán los datos actuales.</p><button id="importButton" class="secondary">Elegir archivo de copia</button><input type="file" id="importFile" accept=".json,application/json" hidden></article><p class="notice"><b>Consejo:</b> guarda una copia cada semana y después de cambios importantes. Si borras los datos del navegador o cambias de móvil, podrías perder la información local.</p><small>Los datos se guardan en este dispositivo. No hay cuenta ni sincronización automática.</small></section></main><dialog id="fieldDialog"><form id="fieldForm"><h2 id="fieldTitle">Añadir campo</h2><label>Nombre<input id="fieldName" required maxlength="70"></label><label>Agricultor (opcional)<input id="farmerName" maxlength="70"></label><label>Precio habitual € (opcional)<input id="usualPrice" type="number" min="0" step=".01"></label><p class="hint">El precio es orientativo; cada riego permite cambiar el importe.</p><div class="actions"><button type="button" data-close="fieldDialog" class="secondary">Cancelar</button><button class="primary">Guardar</button></div></form></dialog><dialog id="irrigationDialog"><form id="irrigationForm"><h2 id="irrigationTitle">Nuevo riego</h2><label>Campo<select id="irrigationField" required></select></label><label>Fecha<input id="irrigationDate" type="date" required></label><label>Importe €<input id="irrigationAmount" type="number" min="0" step=".01" required></label><label>Notas (opcional)<textarea id="irrigationNotes" rows="3"></textarea></label><div class="actions"><button type="button" data-close="irrigationDialog" class="secondary">Cancelar</button><button class="primary">Guardar riego</button></div></form></dialog><div id="toast"></div><script src="app.js"></script></body></html>
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#176b4d">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+<title>Control de Riegos</title>
+</head>
+<body>
+<header><b>💧 Control de Riegos</b><small>Campos, riegos y pagos</small></header>
+<main>
+<section class="summary">
+  <article><small>Pendiente</small><strong id="pendingTotal">0 €</strong><small id="pendingCount">0 riegos</small></article>
+  <article><small>Cobrado</small><strong id="paidTotal">0 €</strong><small id="paidCount">0 riegos</small></article>
+  <article><small>Campos</small><strong id="fieldCount">0</strong></article>
+</section>
+<nav>
+  <button class="tab active" data-tab="riegos">Riegos</button>
+  <button class="tab" data-tab="campos">Campos</button>
+  <button class="tab" data-tab="recibos">Recibos</button>
+  <button class="tab" data-tab="configuracion">Configuración</button>
+  <button class="tab" data-tab="copias">Copias</button>
+</nav>
+
+<section id="panel-riegos">
+  <div class="heading"><div><h2>Riegos</h2><small>Consulta y controla los pagos.</small></div><button id="newIrrigation" class="primary">＋ Nuevo riego</button></div>
+  <div class="filters"><input id="search" placeholder="Buscar campo o agricultor"><select id="statusFilter"><option value="all">Todos</option><option value="pending">Pendientes</option><option value="paid">Pagados</option></select></div>
+  <div id="irrigationList"></div><p id="emptyIrrigations" class="empty">Todavía no hay riegos.</p>
+</section>
+
+<section id="panel-campos" class="hidden">
+  <div class="heading"><div><h2>Campos</h2><small>Registra los campos una sola vez.</small></div><button id="newField" class="primary">＋ Añadir campo</button></div>
+  <div id="fieldList"></div><p id="emptyFields" class="empty">Todavía no hay campos.</p>
+</section>
+
+<section id="panel-recibos" class="hidden">
+  <div class="heading"><div><h2>Recibos</h2><small>Imprime o comparte el justificante de cada riego.</small></div></div>
+  <div class="filters"><input id="receiptSearch" placeholder="Buscar recibo por campo o agricultor"></div>
+  <div id="receiptList"></div><p id="emptyReceipts" class="empty">Todavía no hay recibos.</p>
+  <p class="notice">En móviles, «Compartir» abre el menú del dispositivo. Desde ahí se puede elegir WhatsApp, correo u otra aplicación disponible. «Imprimir» permite también guardar el recibo como PDF.</p>
+</section>
+
+<section id="panel-configuracion" class="hidden">
+  <h2>Configuración</h2>
+  <article class="backup">
+    <h3>Precio por hora</h3>
+    <p>Este importe se propondrá automáticamente al crear cada riego. Podrás modificarlo en un riego concreto si hace falta.</p>
+    <label>Precio por hora (€)<input id="defaultHourlyRate" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Ej. 15"></label>
+    <button id="saveSettings" class="primary">Guardar configuración</button>
+  </article>
+  <article class="backup">
+    <h3>Cómo se calcula</h3>
+    <p><b>Total = horas trabajadas × precio por hora.</b> El importe se actualiza automáticamente al cambiar cualquiera de los dos valores.</p>
+  </article>
+</section>
+
+<section id="panel-copias" class="hidden">
+  <h2>Copias de seguridad</h2>
+  <article class="backup"><h3>Guardar mis datos</h3><p>Descarga una copia con campos, riegos, importes, precios por hora y pagos. En iPhone podrás guardarla en Archivos o iCloud Drive.</p><button id="exportData" class="primary">Guardar copia</button></article>
+  <article class="backup"><h3>Recuperar mis datos</h3><p>Selecciona un archivo JSON anterior. Se sustituirán los datos actuales.</p><button id="importButton" class="secondary">Elegir archivo de copia</button><input type="file" id="importFile" accept=".json,application/json" hidden></article>
+  <p class="notice"><b>Consejo:</b> guarda una copia cada semana y después de cambios importantes. Si borras los datos del navegador o cambias de móvil, podrías perder la información local.</p>
+  <small>Los datos se guardan en este dispositivo. No hay cuenta ni sincronización automática.</small>
+</section>
+</main>
+
+<dialog id="fieldDialog"><form id="fieldForm">
+  <h2 id="fieldTitle">Añadir campo</h2>
+  <label>Nombre<input id="fieldName" required maxlength="70"></label>
+  <label>Agricultor (opcional)<input id="farmerName" maxlength="70"></label>
+  <div class="actions"><button type="button" data-close="fieldDialog" class="secondary">Cancelar</button><button class="primary">Guardar</button></div>
+</form></dialog>
+
+<dialog id="irrigationDialog"><form id="irrigationForm">
+  <h2 id="irrigationTitle">Nuevo riego</h2>
+  <label>Campo<select id="irrigationField" required></select></label>
+  <label>Fecha<input id="irrigationDate" type="date" required></label>
+  <div class="calculation-grid">
+    <label>Horas trabajadas<input id="irrigationHours" type="number" min="0.01" step="0.01" value="1" required inputmode="decimal"></label>
+    <label>Precio por hora (€)<input id="irrigationRate" type="number" min="0" step="0.01" required inputmode="decimal"></label>
+  </div>
+  <label>Total del riego (€)<input id="irrigationAmount" type="number" readonly></label>
+  <p class="hint" id="calculationHint">El total se calcula automáticamente.</p>
+  <label>Notas (opcional)<textarea id="irrigationNotes" rows="3"></textarea></label>
+  <div class="actions"><button type="button" data-close="irrigationDialog" class="secondary">Cancelar</button><button class="primary">Guardar riego</button></div>
+</form></dialog>
+<div id="toast" role="status" aria-live="polite"></div>
+<script src="app.js"></script>
+</body>
+</html>
